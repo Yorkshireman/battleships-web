@@ -32,10 +32,15 @@ class BattleshipsWeb < Sinatra::Base
   post '/fire_shot' do
     @name = $game.player_1.name
     coordinates = (params[:coordinates]).upcase.to_sym
-    if ($game.player_1.shoot coordinates) == :hit
-      @hit = true
-    else
-      @hit = false
+    
+    begin
+      if ($game.player_1.shoot coordinates) == :hit
+        @hit = true
+      else
+        @hit = false
+      end
+    rescue RuntimeError
+      @coordinate_already_been_shot_at = true
     end
 
     erb :game_page

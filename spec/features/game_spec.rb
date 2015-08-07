@@ -12,6 +12,10 @@ feature 'Playing a game' do
       expect(page).to have_content("Enter firing coordinates!")
     end
 
+    scenario "user should see opponent's board heading text" do
+      expect(page).to have_content("Opponent's board:")
+    end
+
     scenario 'user should see a board' do
       expect(page).to have_content(
       "  ABCDEFGHIJ
@@ -78,6 +82,18 @@ feature 'Playing a game' do
 
     scenario "'HIT!!' is NOT printed to the screen" do 
       expect(page).to_not have_content 'HIT!!'     
+    end
+  end
+
+  context "when coordinate has been shot at already" do
+    scenario "'Try again - you've already fired at that square' is printed to the screen" do 
+      #allow_any_instance_of(Cell).to receive(:shot?).and_return true
+      2.times do
+        fill_in "coordinates", with: "C4"
+        click_on "FIRE!"
+      end
+
+      expect(page).to have_content "Try again - you've already fired at that coordinate"
     end
   end
 

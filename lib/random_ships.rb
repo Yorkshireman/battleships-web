@@ -47,10 +47,10 @@ module Randomships
     grid
   end
 
-  def letter_generator
+  def letter_generator size = Board::SIZE
     letters = []
     letter = "A"
-    Board::SIZE.times do
+    size.times do
       letters << letter
       letter = letter.next
     end
@@ -58,10 +58,10 @@ module Randomships
     letters
   end
 
-  def generate_coordinates letters, grid
+  def generate_coordinates letters, grid, size = Board::SIZE
     letters.each do |letter|
       x = 1
-      Board::SIZE.times do 
+      size.times do 
         grid << ((letter + x.to_s).to_sym)
         x += 1
       end
