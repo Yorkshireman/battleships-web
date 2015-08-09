@@ -1,5 +1,6 @@
 class RandomShipsSpec
   include Randomships
+end
 
   describe RandomShipsSpec do
     describe '#randomly_place_ships' do
@@ -11,5 +12,3 @@ class RandomShipsSpec
       end
     end
   end
-
-end
