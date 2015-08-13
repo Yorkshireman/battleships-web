@@ -4,6 +4,10 @@ require_relative 'game'
 require_relative 'random_ships.rb'
 
 class BattleshipsWeb < Sinatra::Base
+  set :views, proc { File.join(root, '..', 'views') }
+
+  # start the server if ruby file executed directly
+  run! if app_file == $0
 
   get '/' do
     erb :index
@@ -24,15 +28,17 @@ class BattleshipsWeb < Sinatra::Base
     erb :game_page
   end
 
-  set :views, proc { File.join(root, '..', 'views') }
-
-  # start the server if ruby file executed directly
-  run! if app_file == $0
-
   post '/fire_shot' do
     @name = $game.player_1.name
     coordinates = (params[:coordinates]).upcase.to_sym
-    
+    get_result_and_set_variables(coordinates)
+    erb :game_page
+  end
+
+
+  private
+
+  def get_result_and_set_variables coordinates
     begin
       shot_result = $game.player_1.shoot coordinates
     rescue RuntimeError
@@ -47,8 +53,6 @@ class BattleshipsWeb < Sinatra::Base
     else
       @hit = false
     end
-
-    erb :game_page
   end
 
   def initialize_game
