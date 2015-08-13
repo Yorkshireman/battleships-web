@@ -66,12 +66,16 @@ feature 'Playing a game' do
     context "if ship is sunk" do
       before :each do
         allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:sunk)
+        fill_in "coordinates", with: 'B4'
+        click_on "FIRE!"
       end
 
       scenario "user sees 'ship sunk!' on the screen" do
-        fill_in "coordinates", with: 'B4'
-        click_on "FIRE!"
         expect(page).to have_content 'Ship sunk!'
+      end
+
+      scenario "user sees 'HIT!' on the screen" do
+        expect(page).to have_content 'HIT!'
       end
     end
   end
