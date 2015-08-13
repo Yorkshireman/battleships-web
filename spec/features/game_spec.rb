@@ -111,8 +111,8 @@ feature 'Playing a game' do
         click_on "FIRE!"
       end
 
-      scenario "'Try again - you've already fired at that square' is NOT visible on the screen" do
-        expect(page).to_not have_content "Try again - you've already fired at that coordinate"
+      scenario "'Try again - out of bounds / you've already fired at that square' is NOT visible on the screen" do
+        expect(page).to_not have_content "Try again - out of bounds / you've already fired at that square"
       end
   end
 
@@ -124,8 +124,8 @@ feature 'Playing a game' do
       end
     end
 
-    scenario "'Try again - you've already fired at that square' is printed to the screen" do
-      expect(page).to have_content "Try again - you've already fired at that coordinate"
+    scenario "'Try again - out of bounds / you've already fired at that square' is printed to the screen" do
+      expect(page).to have_content "Try again - out of bounds / you've already fired at that square"
     end
 
     scenario "'MISS!!' is not on the screen" do

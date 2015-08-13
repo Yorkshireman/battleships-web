@@ -6,7 +6,7 @@
   <input type="submit" value="FIRE!"></input>
 </form>
 
-<% unless @coordinate_already_been_shot_at == true %>
+<% unless @coordinate_already_been_shot_at_or_out_of_bounds == true %>
   <% if @hit == true %>
     <h4>HIT!!</h4>
   <% elsif @hit == false %>
@@ -14,8 +14,8 @@
   <% end %>
 <% end %>
 
-<% if @coordinate_already_been_shot_at == true %>
-  <h4>Try again - you've already fired at that coordinate</h4>
+<% if @coordinate_already_been_shot_at_or_out_of_bounds == true %>
+  <h4>Try again - out of bounds / you've already fired at that square</h4>
 <% end %>
 
 <% if @ship_sunk == true %>

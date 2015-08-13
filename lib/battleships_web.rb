@@ -36,7 +36,7 @@ class BattleshipsWeb < Sinatra::Base
     begin
       shot_result = $game.player_1.shoot coordinates
     rescue RuntimeError
-      @coordinate_already_been_shot_at = true
+      @coordinate_already_been_shot_at_or_out_of_bounds = true
     end
 
     if shot_result == :sunk
