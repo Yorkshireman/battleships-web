@@ -34,13 +34,18 @@ class BattleshipsWeb < Sinatra::Base
     coordinates = (params[:coordinates]).upcase.to_sym
     
     begin
-      if ($game.player_1.shoot coordinates) == :hit
-        @hit = true
-      else
-        @hit = false
-      end
+      shot_result = $game.player_1.shoot coordinates
     rescue RuntimeError
       @coordinate_already_been_shot_at = true
+    end
+
+    if shot_result == :sunk
+      @ship_sunk = true
+      @hit = true
+    elsif shot_result == :hit
+      @hit = true
+    else
+      @hit = false
     end
 
     erb :game_page

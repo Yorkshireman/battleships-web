@@ -38,6 +38,10 @@ feature 'Playing a game' do
       expect(page).to_not have_content("MISS!!")
     end
 
+    scenario "user does NOT see 'Ship sunk!' on the screen" do
+      expect(page).to_not have_content('Ship sunk!')
+    end
+
     scenario "player_2's ships have all been randomly placed" do
       game = Game.new Player, Board
       expect(game.player_2.board.ships.count).to eq 5
@@ -57,6 +61,18 @@ feature 'Playing a game' do
 
     scenario "'MISS!!' is NOT printed to the screen" do 
       expect(page).to_not have_content 'MISS!!'
+    end
+
+    context "if ship is sunk" do
+      before :each do
+        allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:sunk)
+      end
+
+      scenario "user sees 'ship sunk!' on the screen" do
+        fill_in "coordinates", with: 'B4'
+        click_on "FIRE!"
+        expect(page).to have_content 'Ship sunk!'
+      end
     end
   end
 
@@ -83,17 +99,37 @@ feature 'Playing a game' do
     scenario "'HIT!!' is NOT printed to the screen" do 
       expect(page).to_not have_content 'HIT!!'     
     end
+
+    scenario "'Ship sunk!' is NOT visible on the screen" do
+      expect(page).to_not have_content('Ship sunk!')
+    end
+  end
+
+  context "if fired first shot of the game" do
+      before :each do
+        fill_in "coordinates", with: "A1"
+        click_on "FIRE!"
+      end
+
+      scenario "'Try again - you've already fired at that square' is NOT visible on the screen" do
+        expect(page).to_not have_content "Try again - you've already fired at that coordinate"
+      end
   end
 
   context "when coordinate has been shot at already" do
-    scenario "'Try again - you've already fired at that square' is printed to the screen" do 
-      #allow_any_instance_of(Cell).to receive(:shot?).and_return true
+    before :each do
       2.times do
         fill_in "coordinates", with: "C4"
         click_on "FIRE!"
       end
+    end
 
+    scenario "'Try again - you've already fired at that square' is printed to the screen" do
       expect(page).to have_content "Try again - you've already fired at that coordinate"
+    end
+
+    scenario "'MISS!!' is not on the screen" do
+      expect(page).to_not have_content "MISS!!"
     end
   end
 

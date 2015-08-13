@@ -6,14 +6,20 @@
   <input type="submit" value="FIRE!"></input>
 </form>
 
-<% if @hit == true %>
-  <h4>HIT!!</h4>
-<% elsif @hit == false %>
-  <h4>MISS!!</h4>
+<% unless @coordinate_already_been_shot_at == true %>
+  <% if @hit == true %>
+    <h4>HIT!!</h4>
+  <% elsif @hit == false %>
+    <h4>MISS!!</h4>
+  <% end %>
 <% end %>
 
 <% if @coordinate_already_been_shot_at == true %>
   <h4>Try again - you've already fired at that coordinate</h4>
+<% end %>
+
+<% if @ship_sunk == true %>
+  <h3>Ship sunk!</h3>
 <% end %>
 
 <h3>Opponent's board:</h3>
